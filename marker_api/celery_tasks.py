@@ -2,6 +2,9 @@
 
 import io
 import logging
+import os
+os.environ.setdefault("TRANSFORMERS_ATTENTION_IMPLEMENTATION", "eager")
+
 from threading import Lock
 from typing import Any, Dict, Tuple
 
