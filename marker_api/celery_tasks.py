@@ -1,10 +1,13 @@
-# marker_api/celery_tasks.py
-
-import io
-import logging
 import os
 os.environ.setdefault("TRANSFORMERS_ATTENTION_IMPLEMENTATION", "eager")
 
+# Patch Surya's MBART attention map so 'sdpa' falls back to 'eager'
+import surya.model.ordering.decoder as sdec  # noqa: E402
+if "sdpa" not in sdec.MBART_ATTENTION_CLASSES:
+    sdec.MBART_ATTENTION_CLASSES["sdpa"] = sdec.MBART_ATTENTION_CLASSES["eager"]
+
+import io
+import logging
 from threading import Lock
 from typing import Any, Dict, Tuple
 
